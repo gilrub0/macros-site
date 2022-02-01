@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>macros of {{host_name}}</title>
+    <script src="../static/btns.js"></script>
+    <link rel="stylesheet" href="../static/main.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/keyboard.png') }}">
+</head>
+<body>
+<div class="grid-container">
+{% for button in buttons %}
+    {% if button.get("hold",False) %} 
+    <!-- hold enabled button -->
+        <input class="grid-item" id="{{button.get('name','blank')}}" type="submit" value="{{button.get('name','blank')}}" ontouchstart=userAction("{{button.get('name','blank')|string}}","hold") ontouchend=userAction("{{button.get('name','blank')|string}}","release") onmousedown=userAction("{{button.get('name','blank')|string}}","hold") onmouseup=userAction("{{button.get('name','blank')|string}}","release")  />
+    {% else %}
+    <!-- click only button -->
+        <input class="grid-item" id="{{button.get('name','blank')}}" type="submit" value="{{button.get('name','blank')}}" onclick=userAction("{{button.get('name','blank')|string}}","click")  />
+    {%endif %}
+{% endfor %}
+<input class="grid-item" id="releaseAll" type="submit" value="releaseAll" onclick=userAction("releaseAll","releaseAll")  />
+</div>
+<script> window.onload=loadColors()</script>
+</body>
+</html>
