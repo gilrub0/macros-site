@@ -10,16 +10,34 @@
 <body>
 <div class="grid-container">
 {% for button in buttons %}
-    {% if button.get("hold",False) %} 
-    <!-- hold enabled button -->
-        <input class="grid-item" id="{{button.get('name','blank')}}" type="submit" value="{{button.get('name','blank')}}" ontouchstart=userAction("{{button.get('name','blank')|string}}","hold") ontouchend=userAction("{{button.get('name','blank')|string}}","release") onmousedown=userAction("{{button.get('name','blank')|string}}","hold") onmouseup=userAction("{{button.get('name','blank')|string}}","release")  />
-    {% else %}
-    <!-- click only button -->
-        <input class="grid-item" id="{{button.get('name','blank')}}" type="submit" value="{{button.get('name','blank')}}" onclick=userAction("{{button.get('name','blank')|string}}","click")  />
+    <div class="grid-item" id="{{ buttons.get(button).get('name')}}">
+    {% if buttons.get(button).get("hold",False) %} 
+        <input class="grid-item sub-item hold-btn" 
+        id="hold-{{buttons.get(button).get('name','blank')}}" 
+        type="submit" 
+        value="{{buttons.get(button).get('name','blank')}}" 
+        ontouchstart=userAction("{{buttons.get(button).get('name','blank')|string}}","hold") 
+        ontouchend=userAction("{{buttons.get(button).get('name','blank')|string}}","release") 
+        onmousedown=userAction("{{buttons.get(button).get('name','blank')|string}}","hold") 
+        onmouseup=userAction("{{buttons.get(button).get('name','blank')|string}}","release")>
+        
+        <input class="grid-item sub-item kock-btn" 
+        id="lock-{{buttons.get(button).get('name','blank')}}" 
+        type="submit" 
+        value="lock" 
+        onclick=userAction("{{buttons.get(button).get('name')|string}}","lock")>
+    {% elif not buttons.get(button).get('hold',False) %}
+        <input class="grid-item sub-item" 
+        id="click-{{buttons.get(button).get('name','blank')}}" 
+        type="submit" 
+        value="{{buttons.get(button).get('name','blank')}}" 
+        onclick=userAction("{{buttons.get(button).get('name','blank')|string}}","click")>
     {%endif %}
-{% endfor %}
-<input class="grid-item" id="releaseAll" type="submit" value="releaseAll" onclick=userAction("releaseAll","releaseAll")  />
 </div>
+{% endfor %}
+</div>
+<input class="releaseAll" id="releaseAll" type="submit" value="releaseAll" onclick='document.getElementById("releaseAll").style.backgroundColor="yellow";userAction("releaseAll","releaseAll")';  />
+
 <script> window.onload=loadColors()</script>
 </body>
 </html>

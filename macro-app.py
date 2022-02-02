@@ -3,11 +3,16 @@ import pyautogui
 from flask import Flask, render_template, request, redirect
 import json
 from socket import gethostname
+# import keyboard
 
 app = Flask(__name__)
-numbers = range(10)
-clickable_btns = ['f5', 'f12', 'enter','esc']
+
+buttons = {}
+# numbers = range(10)
+numbers = []
+clickable_btns = ['x', 'b', 'j', 'esc']
 holdable_btns = ['shift', 'ctrl', 'alt', 'space']
+
 
 @app.route("/")
 def main_page():
@@ -18,30 +23,35 @@ def main_page():
 def process_key(user_action, keypress=None):
     keypress = json.loads(request.data).get("macro", "")
     if (keypress):
+        # print(keypress,"pressed: ", keyboard.is_pressed(keypress))
         match user_action:
             case "click":
-                pyautogui.keyDown(keypress)
-                pyautogui.keyUp(keypress)
-            case "hold":
-                pyautogui.keyDown(keypress)
-            case "release":
-                pyautogui.keyUp(keypress)
+                pyautogui.press(keypress)
+            case "hold" | "release" | "lock":
+                toggle_buttons(keypress)
             case "releaseAll":
-                all_the_buttons = get_buttons()
-                for btn in filter(lambda x: x.get('hold')==True, all_the_buttons):
-                    pyautogui.keyUp(btn.get("name","esc"))
+                for btn in [d for d in buttons.values() if d['hold'] == True]:
+                    pyautogui.keyUp(btn.get("name", "esc"))
     else:
         pass
     return ("ok", 204)
 
 
 def get_buttons():
-    buttons = []
-    
-    buttons = buttons + [{"name": str(i), "hold": False} for i in numbers]
-    buttons = buttons + [{"name": str(i), "hold": False} for i in clickable_btns]
-    buttons = buttons + [{"name": str(i), "hold": True} for i in holdable_btns]
+    global buttons
+    for i in numbers+clickable_btns:
+        buttons[str(i)] = {"name": str(i), "hold": False, "pressed": False}
+    for i in holdable_btns:
+        buttons[str(i)] = {"name": str(i), "hold": True, "pressed": False}
     return buttons
+
+
+def toggle_buttons(keypress):
+    if buttons.get(keypress).get("pressed", False):
+        pyautogui.keyUp(keypress)
+    else:
+        pyautogui.keyDown(keypress)
+    buttons[keypress]["pressed"] = not buttons[keypress]["pressed"]
 
 
 if __name__ == '__main__':
