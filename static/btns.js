@@ -6,26 +6,25 @@ function userAction(button,action) {
     xhttp.onreadystatechange = function() { 
         if (xhttp.readyState == 4){
           if (xhttp.status == 204){
-            // console.log(action, button, document.getElementById(button).style.backgroundColor);
             if  (action=="hold"){
-              document.getElementById(button).classList.toggle("active");
+              toggleActive(button);
             };
             if (action=="release") {
-              document.getElementById(button).classList.toggle("active");
+              toggleActive(button);
             }; 
             if (action=="click"){ 
-              document.getElementById(button).classList.toggle("active");
-              setTimeout(function(){document.getElementById(button).classList.toggle("active");},50);
+              toggleActive(button);
+              setTimeout(function(){toggleActive(button);},50);
             };
             if (action=="releaseAll"){
               var active_buttons = document.getElementsByClassName("active")  
               for (var i=0; i<active_buttons.length; i++) {
-                active_buttons[i].classList.remove("active");
+                active_buttons[i].classList.replace("active","not_active");
               };
               document.getElementById(button).style.backgroundColor="";
             };
             if (action=="lock"){  
-              document.getElementById(button).classList.toggle("active");
+              toggleActive(button);
             };
           };
         };
@@ -33,8 +32,12 @@ function userAction(button,action) {
 }
 
 function loadColors() {
-  console.log("Loading colors")
   for (let item of document.getElementsByClassName("grid-item")){
-    item.style.backgroundColor="green";
-  }
+    item.classList.toggle("not_active")
+  };
+}
+
+function toggleActive(btn) {
+  document.getElementById(btn).classList.toggle("not_active");
+  document.getElementById(btn).classList.toggle("active");
 }

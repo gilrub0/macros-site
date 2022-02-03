@@ -50,5 +50,9 @@ body {
 }
 
 .active{
-  background-color:rgb(0, 255, 200) !important;
+  background-color:rgba(0, 255, 200, 0.897) !important;
+}
+
+.not_active{
+  background-color: rgba(255, 156, 42, 0.842)
 }
