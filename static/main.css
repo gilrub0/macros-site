@@ -50,9 +50,12 @@ body {
 }
 
 .active{
-  background-color:rgba(0, 255, 200, 0.897) !important;
+  background-color:rgba(0, 255, 200, 0.897);
 }
 
 .not_active{
   background-color: rgba(255, 156, 42, 0.842)
+}
+.waiting_for_response{
+  background-color:rgba(255, 42, 220, 0.945)
 }
