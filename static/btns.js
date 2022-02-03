@@ -6,26 +6,28 @@ function userAction(button,action) {
     xhttp.onreadystatechange = function() { 
         if (xhttp.readyState == 4){
           if (xhttp.status == 204){
-            console.log(action, button, document.getElementById(button).style.backgroundColor);
+            // console.log(action, button, document.getElementById(button).style.backgroundColor);
             if  (action=="hold"){
-              // document.getElementById(button).style.backgroundColor="red"; 
               document.getElementById(button).classList.toggle("active");
-            }
+            };
             if (action=="release") {
-              // document.getElementById(button).style.backgroundColor="green";
-              setTimeout(document.getElementById(button).classList.toggle("active"),15);
-            } 
+              document.getElementById(button).classList.toggle("active");
+            }; 
             if (action=="click"){ 
-              document.getElementById(button).style.backgroundColor="red";
-              setTimeout(function(){document.getElementById(button).style.backgroundColor="green";},50);
-            }
-            if (action=="releaseAll"){  
+              document.getElementById(button).classList.toggle("active");
+              setTimeout(function(){document.getElementById(button).classList.toggle("active");},50);
+            };
+            if (action=="releaseAll"){
+              var active_buttons = document.getElementsByClassName("active")  
+              for (var i=0; i<active_buttons.length; i++) {
+                active_buttons[i].classList.remove("active");
+              };
               document.getElementById(button).style.backgroundColor="";
-            }
+            };
             if (action=="lock"){  
               document.getElementById(button).classList.toggle("active");
-            }
-          }
+            };
+          };
         };
       };
 }
@@ -35,8 +37,4 @@ function loadColors() {
   for (let item of document.getElementsByClassName("grid-item")){
     item.style.backgroundColor="green";
   }
-}
-
-function chBackcolor(color) {
-  document.body.style.background = color;
 }

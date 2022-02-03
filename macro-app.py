@@ -3,15 +3,14 @@ import pyautogui
 from flask import Flask, render_template, request, redirect
 import json
 from socket import gethostname
-# import keyboard
 
 app = Flask(__name__)
 
 buttons = {}
 # numbers = range(10)
 numbers = []
-clickable_btns = ['x', 'b', 'j', 'esc']
-holdable_btns = ['shift', 'ctrl', 'alt', 'space']
+clickable_btns = ['x', 'b', 'j', 't', 'esc',"scroll-UP", "scroll-DOWN", "CTRL+", "CTRL-"]
+holdable_btns = ['alt', 'space', 'shift', 'ctrl']
 
 
 @app.route("/")
@@ -22,16 +21,30 @@ def main_page():
 @app.route('/<user_action>', methods=['POST'])
 def process_key(user_action, keypress=None):
     keypress = json.loads(request.data).get("macro", "")
+    print (keypress)
     if (keypress):
-        # print(keypress,"pressed: ", keyboard.is_pressed(keypress))
-        match user_action:
-            case "click":
-                pyautogui.press(keypress)
-            case "hold" | "release" | "lock":
-                toggle_buttons(keypress)
-            case "releaseAll":
-                for btn in [d for d in buttons.values() if d['hold'] == True]:
-                    pyautogui.keyUp(btn.get("name", "esc"))
+        if keypress in pyautogui.KEYBOARD_KEYS:
+            match user_action:
+                case "click":
+                    pyautogui.press(keypress)
+                case "hold" | "release" | "lock":
+                    toggle_buttons(keypress)
+                
+        else:
+            match keypress:
+                case "scroll-UP":
+                    pyautogui.scroll(100)
+                case "scroll-DOWN":
+                    pyautogui.scroll(-100)
+                case "CTRL+":
+                    pyautogui.hotkey('ctrl','+')
+                case "CTRL-":
+                    pyautogui.hotkey('ctrl','-')
+                case "releaseAll":
+                    for btn in [d for d in buttons.values() if d['hold'] == True and d["pressed"] == True]:
+                        toggle_buttons(btn.get('name'))
+                        pyautogui.keyUp(btn.get("name", "esc"))
+                
     else:
         pass
     return ("ok", 204)
