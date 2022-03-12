@@ -1,43 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>macros of {{host_name}}</title>
-    <script src="../static/btns.js"></script>
-    <link rel="stylesheet" href="../static/main.css">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/keyboard.png') }}">
-</head>
-<body>
-<div class="grid-container">
-{% for button in buttons %}
-    <div class="grid-item" id="{{ buttons.get(button).get('name')}}">
-    {% if buttons.get(button).get("hold",False) %} 
-        <input class="grid-item sub-item hold-btn" 
-        id="hold-{{buttons.get(button).get('name','blank')}}" 
-        type="submit" 
-        value="{{buttons.get(button).get('name','blank')}}" 
-        ontouchstart=userAction("{{buttons.get(button).get('name','blank')|string}}","hold") 
-        ontouchend=userAction("{{buttons.get(button).get('name','blank')|string}}","release") 
-        onmousedown=userAction("{{buttons.get(button).get('name','blank')|string}}","hold") 
-        onmouseup=userAction("{{buttons.get(button).get('name','blank')|string}}","release")
-        onclick=userAction("{{buttons.get(button).get('name','blank')|string}}","click")>
-        <input class="grid-item sub-item kock-btn" 
-        id="lock-{{buttons.get(button).get('name','blank')}}" 
-        type="submit" 
-        value="lock" 
-        onclick=userAction("{{buttons.get(button).get('name')|string}}","lock")>
-    {% elif not buttons.get(button).get('hold',False) %}
-        <input class="grid-item sub-item" 
-        id="click-{{buttons.get(button).get('name','blank')}}" 
-        type="submit" 
-        value="{{buttons.get(button).get('name','blank')}}" 
-        onclick=userAction("{{buttons.get(button).get('name','blank')|string}}","click")>
-    {%endif %}
-</div>
-{% endfor %}
-</div>
-<input class="releaseAll" id="releaseAll" type="submit" value="releaseAll" onclick='document.getElementById("releaseAll").style.backgroundColor="yellow";userAction("releaseAll","releaseAll")';  />
 
+    <head>
+        <meta charset="UTF-8">
+        <title>macros of {{host_name}}</title>
+        <script src="../static/btns.js"></script>
+        <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="../static/main.css">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='icons/keyboard.png') }}">
+    </head>
+
+    <body>
+        <div class="grid-container">
+            {% for button in buttons %}
+                <div class="grid-item" id="{{ buttons.get(button).get('name')}}">
+                {% if buttons.get(button).get("hold",False) %} 
+                    <input class="grid-item sub-item hold-btn" 
+                    id="hold-{{buttons.get(button).get('name','blank')}}" 
+                    type="submit" 
+                    value="{{buttons.get(button).get('name','blank')}}" 
+                    ontouchstart=userAction("{{buttons.get(button).get('name','blank')|string}}","hold") 
+                    ontouchend=userAction("{{buttons.get(button).get('name','blank')|string}}","release") 
+                    onmousedown=userAction("{{buttons.get(button).get('name','blank')|string}}","hold") 
+                    onmouseup=userAction("{{buttons.get(button).get('name','blank')|string}}","release")
+                    onclick=userAction("{{buttons.get(button).get('name','blank')|string}}","click")>
+                    <input class="grid-item sub-item kock-btn" 
+                    id="lock-{{buttons.get(button).get('name','blank')}}" 
+                    type="submit" 
+                    value="lock" 
+                    onclick=userAction("{{buttons.get(button).get('name')|string}}","lock")>
+                {% elif not buttons.get(button).get('hold',False) %}
+                    <input class="grid-item sub-item" 
+                    id="click-{{buttons.get(button).get('name','blank')}}" 
+                    type="submit" 
+                    value="{{buttons.get(button).get('name','blank')}}" 
+                    onclick=userAction("{{buttons.get(button).get('name','blank')|string}}","click")>
+                {%endif %}
+            </div>
+            {% endfor %}
+            </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <button style='width:100%;'  class="btn btn-light" id="releaseAll" type="submit" value="releaseAll" onclick='document.getElementById("releaseAll").style.backgroundColor="yellow";userAction("releaseAll","releaseAll")';>Release All</button>
+        </div>
+        <div class="col">
+            <button style='width:100%;' type="submit" class="btn btn-light" onclick="window.location.href='/config';">config</button>
+        </div>
+    </div>
+</div>
 <script> window.onload=loadColors()</script>
-</body>
+    </body>
+
 </html>

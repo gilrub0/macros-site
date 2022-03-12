@@ -45,3 +45,32 @@ function toggleActive(btn) {
     document.getElementById(btn).classList.toggle("active");
 
 }
+
+function remove_btn(button) {
+    if (confirm('Are you sure?')) {
+        console.log("remove " + button);
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", `/remove_btn`, true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send(`{"remove":"${button}"}`);
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 204) {
+                    var row_to_remove=document.getElementById(`${button}`);
+                    row_to_remove.remove();
+                    // document.getElementById(`${button}`).parentNode.parentNode.removeChild(document.getElementById(`${button}`))
+                };
+            };
+        };
+    };
+}
+
+function add_btn(button, hold) {
+    console.log(button, hold);
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", `/add_btn`, true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(`{"${button}":{"name":"${button}","hold":${hold},"pressed": false}}`);
+    setTimeout(function() { location.reload(); }, 50);
+    
+}

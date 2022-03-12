@@ -40,13 +40,26 @@ body {
 } */
 
 .releaseAll{
-  width: 100%;
+  min-width: 47%;
   flex-wrap: nowrap;
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
+  /* padding: 20px; */
   font-size: 30px;
   text-align: center;
   border-radius: 15px;
+  margin-left: 0px;
+
+}
+
+.config{
+  min-width: 47%;
+  flex-wrap: nowrap;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  /* padding: 20px; */
+  font-size: 30px;
+  text-align: center;
+  border-radius: 15px;
+  margin-right: 0px;
 }
 
 .active{
